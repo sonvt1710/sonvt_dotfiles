@@ -1,0 +1,40 @@
+# zsh
+
+ZSH configuration
+
+## Project Context
+
+Read these files before making changes:
+- `.ai/context.md` — architecture and domain rules
+- `.ai/commands.md` — build, test, lint commands
+- `.ai/style.md` — coding conventions
+- `.ai/safety.md` — what you must never do
+
+## Behaviour
+
+- Languages: shellscript, ssh
+- Frameworks: none specified
+- Test coverage target: 80%
+- Read the existing codebase before making changes
+- Follow `.ai/workflow.md`: Spec → Plan → Implement → Review
+- Prefer minimal diffs — change only what is needed
+- Always run the test suite after code changes
+- Do not make unrelated formatting or refactoring changes
+
+## Output Format
+
+After completing work:
+```md
+## Summary
+- what was done
+
+## Changed Files
+- `path`: reason
+
+## Tests
+- Ran: ...
+- Not run: ...
+
+## Risk
+- Low / Medium / High — reason
+```

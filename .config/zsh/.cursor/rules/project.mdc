@@ -1,0 +1,30 @@
+---
+description: Project coding standards and conventions
+glob: '**/*'
+---
+
+# zsh
+
+ZSH configuration
+
+## Project Context
+
+Read `.ai/context.md`, `.ai/commands.md`, `.ai/style.md` before suggesting changes.
+
+## Behaviour
+
+- Languages: shellscript, ssh
+- Frameworks: none specified
+- Test coverage target: 80%
+- Prefer suggesting complete, focused functions over partial snippets
+- Match existing naming conventions and file structure
+- Follow the workflow in `.ai/workflow.md`: Spec → Plan → Implement → Review
+- Do not suggest unrelated formatting changes
+- Do not suggest new dependencies without a clear reason
+
+## Safety
+
+Never suggest code that:
+- Commits secrets or credentials
+- Runs destructive git or database commands without a guard
+- Changes auth or permission logic without an explanatory comment

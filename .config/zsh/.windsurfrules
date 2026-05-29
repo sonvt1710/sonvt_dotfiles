@@ -1,0 +1,21 @@
+# zsh
+
+ZSH configuration
+
+## Project Context
+
+Read `.ai/context.md`, `.ai/commands.md`, `.ai/style.md` before making changes.
+
+## Behaviour
+
+- Languages: shellscript, ssh
+- Frameworks: none specified
+- Test coverage target: 80%
+- Follow `.ai/workflow.md`: Spec → Plan → Implement → Review
+- Use Cascade flows for multi-step refactoring tasks
+- Prefer incremental changes with verification at each step
+- Keep diffs small and focused; no unrelated changes
+
+## Safety
+
+See `.ai/safety.md`. Never commit secrets or run destructive commands without approval.
