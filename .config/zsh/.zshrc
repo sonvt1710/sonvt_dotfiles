@@ -123,7 +123,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Prompt
-eval "$(oh-my-posh init zsh --config /Users/sonvt/themes/terminal/oh_my_posh_custom.json)"
+eval "$(oh-my-posh init zsh --config "${XDG_CONFIG_HOME:-$HOME/.config}/oh-my-posh/oh_my_posh_custom.json")"
 
 # vscode
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/usr/local/share/dotnet:/Users/sonvt/.config/emacs/bin"
