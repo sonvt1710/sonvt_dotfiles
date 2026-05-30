@@ -50,6 +50,12 @@ zvm_after_init() {
   # Right Arrow -> Accept autosuggestion in insert mode
   zvm_bindkey viins '^[[C' autosuggest-accept
 
+  # Left/Right Arrow -> character movement in normal mode (survive zvm reset)
+  zvm_bindkey vicmd '^[[D' vi-backward-char
+  zvm_bindkey vicmd '^[[C' vi-forward-char
+  zvm_bindkey vicmd '^[OD' vi-backward-char
+  zvm_bindkey vicmd '^[OC' vi-forward-char
+
   # Ctrl+R -> fzf history search (unified UI across modes)
   zvm_bindkey viins '^R' fzf-history-widget
   zvm_bindkey vicmd '^R' fzf-history-widget

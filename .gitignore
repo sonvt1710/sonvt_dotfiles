@@ -1,8 +1,19 @@
+# Ignore everything by default
+*
+
+# Unignore tracked dotfile dirs
+!.config/
+!.config/zsh/
+!.config/zsh/**
+!.config/oh-my-posh/
+!.config/oh-my-posh/**
+
+# Common noise
 .DS_Store
 *.swp
 *.swo
 .zsh_history
 .zcompdump*
-.codegraph/
-.serena/
-plugins/
+.config/zsh/.codegraph/
+.config/zsh/.serena/
+.config/zsh/plugins/
