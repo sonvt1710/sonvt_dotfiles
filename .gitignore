@@ -5,8 +5,16 @@
 !.config/
 !.config/zsh/
 !.config/zsh/**
+!.config/tmux/
+!.config/tmux/**
+!.config/iterm2/
+!.config/iterm2/com.googlecode.iterm2.plist
 !.config/oh-my-posh/
 !.config/oh-my-posh/**
+!projects/
+!projects/scripts/
+!projects/scripts/setup-dotfiles-config.sh
+!projects/scripts/export-dotfiles-config.sh
 
 # Common noise
 .DS_Store
