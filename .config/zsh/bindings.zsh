@@ -16,9 +16,16 @@ ZVM_VI_HIGHLIGHT_EXTRASTYLE=none
 # In Normal mode: 'y' to copy selection to system clipboard, 'p' or 'gp' to paste.
 ZVM_SYSTEM_CLIPBOARD_ENABLED=true
 
+# Edit the current command line in $VISUAL/$EDITOR
+autoload -Uz edit-command-line
+zle -N edit-command-line
+
 # zsh-vi-mode resets all bindings on init, so custom bindings
 # must be registered via this hook to survive.
 zvm_after_init() {
+  # Normal mode v -> edit current command in nvim
+  zvm_bindkey vicmd 'v' edit-command-line
+
   # Word navigation
   # Note: Option+Arrow is preferred on macOS to avoid Mission Control conflicts.
   local keymap

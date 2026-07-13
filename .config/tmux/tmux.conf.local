@@ -29,7 +29,7 @@ tmux_conf_new_session_prompt=false
 #   - true
 #   - false (default)
 #   - disabled (do not modify new-session bindings)
-tmux_conf_new_session_retain_current_path=false
+tmux_conf_new_session_retain_current_path=true
 
 
 # -- windows & pane creation ---------------------------------------------------
@@ -38,7 +38,7 @@ tmux_conf_new_session_retain_current_path=false
 #   - true
 #   - false (default)
 #   - disabled (do not modify new-window bindings)
-tmux_conf_new_window_retain_current_path=false
+tmux_conf_new_window_retain_current_path=true
 
 # new window tries to reconnect ssh sessions, possible values are:
 #   - true
@@ -396,6 +396,10 @@ set -ga terminal-overrides ",xterm-256color:Tc"
 #########################################################
 # increase history size
 set -g history-limit 10000
+
+# Refresh only host-shell environment needed by new tmux panes.
+# Example: a fresh iTerm tab updates PATH and SSH_AUTH_SOCK before tmux starts a new shell.
+set -g update-environment "SSH_AUTH_SOCK PATH GIT_CLONE_ROOT REPOS_DIRECTORY"
 
 # start with mouse mode enabled
 set -g mouse on

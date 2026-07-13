@@ -199,8 +199,32 @@ export PATH="/Users/sonvt/.antigravity/antigravity/bin:$PATH"
 # ── Serena hooks (PATH) ─────────────────────────────────────────────────────────
 export PATH="$HOME/.local/bin:$PATH"
 
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/sonvt/.cache/lm-studio/bin"
+# End of LM Studio CLI section
+
+
+# Added by Antigravity IDE
+export PATH="/Users/sonvt/.antigravity-ide/antigravity-ide/bin:$PATH"
+
 # OpenClaw Completion
 [ -f "/Users/sonvt/.openclaw/completions/openclaw.zsh" ] && source "/Users/sonvt/.openclaw/completions/openclaw.zsh"
+eval "$(omp completions zsh)"
+# Use Neovim as the default terminal editor
+export EDITOR='nvim'
+export VISUAL='nvim'
 
 # Load custom zsh config (must be last to override Oh My Zsh aliases)
 source "$ZDOTDIR/powerfull_zsh.sh"
+
+# Auto-open tmux on new iTerm2 tabs (ignores nested sessions and VS Code/IDE terminals)
+if [[ -z "$TMUX" && "$TERM_PROGRAM" == "iTerm.app" && -z "$INSIDE_EMACS" ]]; then
+    # Session names are set at tmux startup and do not follow later cd changes.
+    tmux_session_prefix="Kurumi"
+    tmux_session_id="${ITERM_SESSION_ID%%:*}"
+    tmux_session_id="${tmux_session_id:-$$}"
+    tmux_session_id="${tmux_session_id%%p*}"
+    tmux_session_id="${tmux_session_id//[^A-Za-z0-9_-]/_}"
+    # Use one tmux session per iTerm tab so exit only closes the current tab.
+    exec tmux new-session -A -s "${tmux_session_prefix}-${tmux_session_id}" -n "$tmux_session_prefix"
+fi

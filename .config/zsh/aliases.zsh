@@ -13,9 +13,6 @@ alias tree='eza --tree --icons'
 # Reuse ls completions for eza (avoids defining a separate completion function)
 compdef eza=ls
 
-# Better cat
-alias cat='bat'
-
 # =========================================================
 # Core utilities
 # =========================================================
@@ -60,3 +57,10 @@ alias cfg='git --git-dir=$HOME/.config/.git --work-tree=$HOME'
 # =========================================================
 
 alias stream='mpv av://v4l2:/dev/video4 --fullscreen --demuxer-lavf-o=input_format=mjpeg,framerate=30 --profile=low-latency --untimed'
+
+# Claude with lmStudio
+alias claude-lmstudio='ANTHROPIC_BASE_URL=http://localhost:1234 ANTHROPIC_AUTH_TOKEN=lmstudio /Users/sonvt/Library/pnpm/claude'
+
+
+# OMP local LM Studio: start SSE keepalive proxy for slow prompt processing
+alias omp="/Users/sonvt/projects/scripts/tools/omp-lmstudio"
