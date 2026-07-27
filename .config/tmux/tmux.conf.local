@@ -6,8 +6,54 @@
 #         without any warranty.
 #         Copyright 2012— Gregory Pakosz (@gpakosz).
 
+# Preserve modified keys such as Ctrl+Backspace for shells and terminal apps.
+set -s extended-keys on
+# Translate Ctrl+Backspace to the standard backward-word deletion key.
+bind-key -n C-BSpace send-keys C-w
+
 
 # -- bindings ------------------------------------------------------------------
+##### Display Popups ##### 
+
+bind C-y display-popup \
+  -d "#{pane_current_path}" \
+  -w 80% \
+  -h 80% \
+  -E "lazygit"
+bind C-n display-popup -E 'bash -i -c "read -p \"Session name: \" name; tmux new-session -d -s \$name && tmux switch-client -t \$name"'
+bind C-j display-popup -E "tmux list-sessions | sed -E 's/:.*$//' | grep -v \"^$(tmux display-message -p '#S')\$\" | fzf --reverse | xargs tmux switch-client -t"
+bind C-p display-popup -E "ipython"
+bind C-f display-popup \
+  -w 80% \
+  -h 80% \
+  -E 'rmpc'
+bind C-r display-popup \
+  -d "#{pane_current_path}" \
+  -w 90% \
+  -h 90% \
+  -E "ranger"
+bind C-z display-popup \
+  -w 80% \
+  -h 80% \
+  -E 'nvim ~/.zshrc'
+bind C-g display-popup -E "bash -i ~/config/tmux/scripts/chat-popup.sh"
+bind C-t display-popup \
+  -d "#{panes_current_path}" \
+  -w 75% \
+  -h 75% \
+  -E "zsh"
+
+##### Display Menu ##### 
+
+bind d display-menu -T "#[align=centre]Dotfiles" -x C -y C \
+  ".zshrc"            z  "display-popup -E 'nvim ~//config/zsh/.zshrc'" \
+  ".tmux.conf"        t  "display-popup -E 'nvim ~/config/tmux/.tmux.conf'" \
+  ".sketchybarrc"     s  "display-popup -d "~/.config/sketchybar" -E 'nvim ~/.config/sketchybar/sketchybarrc'" \
+  "Exit"              q  ""
+
+
+# Fzf over keybinds and run selection (these are not working yet. Nested popup problem)
+# bind C-k display-popup -E "bash -i ~/.tmux/scripts/choose-bind.sh"
 
 # preserve tmux stock bindings,
 # while adding bindings that don't conflict with these stock bindings
@@ -394,6 +440,21 @@ set -g status-style 'bg=default'
 set -g default-terminal "screen-256color"
 set -ga terminal-overrides ",xterm-256color:Tc"
 #########################################################
+
+## Show panel index in UI 
+set-option -g pane-border-status top
+set -g pane-border-style "fg=colour240,bg=default"
+set -g pane-active-border-style "fg=colour2,bg=default"
+set -g pane-border-format "#{?pane_active,#[fg=green]#[bold] 🟢 [#P] #T ,#[fg=colour244] ⚪ [#P] Inactive }"
+
+## Timeout when 'Prefix - q' in miniseconds
+set-option -g display-panes-time 5000
+set -g display-panes-active-colour "#88c0d0"
+set -g display-panes-colour "#4c566a"
+
+# Định dạng giờ 24h (nếu muốn 12h thì đổi thành 12)
+setw -g clock-mode-style 24
+
 # increase history size
 set -g history-limit 10000
 
@@ -462,12 +523,28 @@ tmux_conf_uninstall_plugins_on_reload=true
 # /!\ the 'set -g @tpm_plugins' syntax is not supported
 # to enable a plugin, use the 'set -g @plugin' syntax:
 # visit https://github.com/tmux-plugins for available plugins
-#set -g @plugin 'tmux-plugins/tmux-copycat'
-#set -g @plugin 'tmux-plugins/tmux-cpu'
-#set -g @plugin 'tmux-plugins/tmux-resurrect'
-#set -g @plugin 'tmux-plugins/tmux-continuum'
-#set -g @continuum-restore 'on'
+set -g @plugin 'tmux-plugins/tmux-copycat'
+set -g @plugin 'tmux-plugins/tmux-cpu'
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+set -g @plugin 'tmux-plugins/tmux-continuum'
 
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+# set -g @plugin 'christoomey/vim-tmux-navigator'
+# set -g @plugin 'dracula/tmux'
+# set -g @plugin 'catppuccin/tmux'
+set -g @plugin 'dreamsofcode-io/catppuccin-tmux'
+set -g @continuum-restore 'on'
+set -g @continuum-save-interval '60'
+set -g @resurrect-capture-pane-contents 'on'
+set -g @resurrect-hook-post-save-all '~/.config/tmux/scripts/clean-resurrect.sh "$(resurrect_dir)"'
+
+# Context menu
+set -g @plugin 'alexwforsythe/tmux-which-key'
+## This alternative plugins
+set -g @plugin 'jaclu/tmux-menus'
+# Configure it to open with your prefix key instead of its default 'Prefix + \' trigger
+# set -g @menus_trigger 'C-b'
 
 # -- custom variables ----------------------------------------------------------
 
@@ -522,3 +599,24 @@ tmux_conf_uninstall_plugins_on_reload=true
 # "$@"
 # # /!\ do not remove the previous line
 # #     do not write below this line
+
+
+# Bindings keys for sesh tmux + fzf. You can customize this however you want, see man fzf for more info on the different options
+bind-key "T" run-shell "sesh connect \"$(
+  sesh list --icons | fzf-tmux -p 80%,70% \
+    --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
+    --header '  ^a all ^t tmux ^g configs ^x zoxide ^d tmux kill ^f find' \
+    --bind 'tab:down,btab:up' \
+    --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)' \
+    --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -t --icons)' \
+    --bind 'ctrl-g:change-prompt(⚙️  )+reload(sesh list -c --icons)' \
+    --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -z --icons)' \
+    --bind 'ctrl-f:change-prompt(🔎  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
+    --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
+    --preview-window 'right:55%' \
+    --preview 'sesh preview {}'
+)\""
+
+# If you prefer to use television instead of fzf, you can add a binding to your tmux config that opens the sesh channel in a tmux popup.
+# Use Ctrl-s to cycle through the sources, and Ctrl-d to kill the highlighted session.
+# bind-key "T" display-popup -E -w 80% -h 70% -d '#{pane_current_path}' -T 'Sesh' tv sesh

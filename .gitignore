@@ -25,3 +25,4 @@
 .config/zsh/.codegraph/
 .config/zsh/.serena/
 .config/zsh/plugins/
+.config/tmux/plugins/
