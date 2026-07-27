@@ -18,11 +18,7 @@ if [ -d "$RESURRECT_DIR" ]; then
     ls -t "$RESURRECT_DIR"/tmux_resurrect_*.txt 2>/dev/null | tail -n +3 | xargs rm -f 2>/dev/null || true
 fi
 
-# Send notification on save success
-if command -v osascript >/dev/null 2>&1; then
-    osascript -e 'display notification "Tmux environment & pane contents saved successfully!" with title "tmux-resurrect" subtitle "Backup Complete"' 2>/dev/null || true
-fi
-
+# Send notification on save success in tmux status bar (3 seconds)
 if command -v tmux >/dev/null 2>&1; then
-    tmux display-message "tmux-resurrect: Environment saved successfully! (retained 2 latest backups)" 2>/dev/null || true
+    tmux display-message -d 3000 "#[fg=green,bold]✔ #[fg=default]tmux-resurrect: Environment & panes saved! #[fg=colour244](retained 2 latest backups)" 2>/dev/null || true
 fi
