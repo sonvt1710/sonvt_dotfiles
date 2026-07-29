@@ -620,3 +620,6 @@ bind-key "T" run-shell "sesh connect \"$(
 # If you prefer to use television instead of fzf, you can add a binding to your tmux config that opens the sesh channel in a tmux popup.
 # Use Ctrl-s to cycle through the sources, and Ctrl-d to kill the highlighted session.
 # bind-key "T" display-popup -E -w 80% -h 70% -d '#{pane_current_path}' -T 'Sesh' tv sesh
+
+# Press Prefix + p to open a floating popup listing all panes
+bind p display-popup -E "tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index} - #{pane_current_command} [#{pane_current_path}]' | fzf --reverse --header='Jump to pane' | cut -d' ' -f1 | xargs -I {} tmux switch-client -t {}"
