@@ -27,6 +27,9 @@ case "$kind" in
     ;;
 esac
 
+# ESC → clear line + submit (empty submit = exit without rename)
+export INPUTRC="$HOME/.config/tmux/scripts/inputrc"
+
 # -e enables readline; -i prefills with current value
 read -rei "$current" -p "$label: " new || exit 0
 [ -z "$new" ] && exit 0

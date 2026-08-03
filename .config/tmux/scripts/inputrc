@@ -1,0 +1,4 @@
+# readline binding for tmux popup scripts
+# ESC → clear line + accept (empty input triggers script exit)
+set editing-mode emacs
+"\e": "\C-u\C-m"

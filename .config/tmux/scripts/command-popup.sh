@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Popup tmux command prompt. Reads a tmux command line and executes it.
-set -euo pipefail
+# ESC closes the popup (via readline: ESC clears line + accepts empty input).
+set -uo pipefail
 
 # History file for readline (up-arrow recall)
 histfile="${TMUX_CMD_HISTFILE:-$HOME/.cache/tmux-cmd-popup.history}"
@@ -11,6 +12,9 @@ touch "$histfile"
 if [ -s "$histfile" ]; then
   history -r "$histfile" 2>/dev/null || true
 fi
+
+# ESC → clear line + submit (empty submit = exit below)
+export INPUTRC="$HOME/.config/tmux/scripts/inputrc"
 
 read -re -p ":" cmd || exit 0
 [ -z "$cmd" ] && exit 0
