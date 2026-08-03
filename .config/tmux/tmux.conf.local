@@ -625,18 +625,18 @@ bind-key "T" run-shell "sesh connect \"$(
 bind p display-popup -w 80% -h 80% -E "bash ~/.config/tmux/scripts/pane-picker.sh"
 
 # prefix + : → command prompt in popup (with history)
-bind : display-popup -w 60% -h 20% -E "bash ~/.config/tmux/scripts/command-popup.sh"
+bind : display-popup -w 60% -h 3 -E "bash ~/.config/tmux/scripts/command-popup.sh"
 
 # Rename bindings — plain prompt (lowercase) + popup with prefill (uppercase / M-)
 # Pane title (no tmux default)
 bind e command-prompt -I "#T" -p "Pane title:" "select-pane -T '%%'"
-bind E display-popup -w 60% -h 20% -E "bash ~/.config/tmux/scripts/rename.sh pane"
+bind E display-popup -w 60% -h 3 -E "bash ~/.config/tmux/scripts/rename.sh pane"
 # Window (overrides default prefix+, with prefill)
 bind , command-prompt -I "#W" -p "Window name:" "rename-window '%%'"
-bind M-, display-popup -w 60% -h 20% -E "bash ~/.config/tmux/scripts/rename.sh window"
+bind M-, display-popup -w 60% -h 3 -E "bash ~/.config/tmux/scripts/rename.sh window"
 # Session (overrides default prefix+$ with prefill)
 bind '$' command-prompt -I "#S" -p "Session name:" "rename-session '%%'"
-bind M-'$' display-popup -w 60% -h 20% -E "bash ~/.config/tmux/scripts/rename.sh session"
+bind M-'$' display-popup -w 60% -h 3 -E "bash ~/.config/tmux/scripts/rename.sh session"
 
 # Toggle status bar position between top (Zellij style) and bottom (Classic style)
 bind-key T run-shell "if [ \$(tmux show-options -gv status-position) = 'top' ]; then tmux set-option -g status-position bottom; else tmux set-option -g status-position top; fi"
